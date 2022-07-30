@@ -1,4 +1,7 @@
-export class Receipt {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Receipt = void 0;
+class Receipt {
     constructor(itemID, priceSold, buyer, seller) {
         this.buyer = buyer;
         this.seller = seller;
@@ -6,3 +9,4 @@ export class Receipt {
         this.priceSold = priceSold;
     }
 }
+exports.Receipt = Receipt;

@@ -1,4 +1,7 @@
-export class Item {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Item = void 0;
+class Item {
     constructor(itemID, price, traderID, orderType, expirationDate) {
         this.itemID = itemID;
         this.price = price;
@@ -16,3 +19,4 @@ export class Item {
         return true;
     }
 }
+exports.Item = Item;

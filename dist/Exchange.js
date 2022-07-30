@@ -1,6 +1,9 @@
-import { OrderType } from "./OrderType";
-import { Receipt } from "./Receipt";
-export class Exchange {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.Exchange = void 0;
+const OrderType_1 = require("./OrderType");
+const Receipt_1 = require("./Receipt");
+class Exchange {
     constructor(itemID) {
         this.itemID = itemID;
         this.buyOrders = [];
@@ -9,29 +12,29 @@ export class Exchange {
         this.bid = -1;
     }
     add(item) {
-        if (item.getOrderType() == OrderType.Buy) {
+        if (item.getOrderType() == OrderType_1.OrderType.Buy) {
             if (this.sellOrders.length > 0 && this.checkExecute(item)) {
                 var sellOrder = this.removeSellOrder();
                 this.calculateMarketPrices();
-                return new Receipt(this.itemID, item.price, item.traderID, sellOrder.traderID);
+                return new Receipt_1.Receipt(this.itemID, item.price, item.traderID, sellOrder.traderID);
             }
             this.addBuyOrder(item);
             this.calculateMarketPrices();
-            return new Receipt(this.itemID, item.price, item.traderID, null);
+            return new Receipt_1.Receipt(this.itemID, item.price, item.traderID, null);
         }
-        else if (item.getOrderType() == OrderType.Sell) {
+        else if (item.getOrderType() == OrderType_1.OrderType.Sell) {
             if (this.buyOrders.length > 0 && this.checkExecute(item)) {
                 var buyOrder = this.removeBuyOrder();
                 this.calculateMarketPrices();
-                return new Receipt(this.itemID, item.price, buyOrder.traderID, item.traderID);
+                return new Receipt_1.Receipt(this.itemID, item.price, buyOrder.traderID, item.traderID);
             }
             this.addSellOrder(item);
             this.calculateMarketPrices();
-            return new Receipt(this.itemID, item.price, null, item.traderID);
+            return new Receipt_1.Receipt(this.itemID, item.price, null, item.traderID);
         }
         else {
             this.calculateMarketPrices();
-            return new Receipt(this.itemID, null, null, null);
+            return new Receipt_1.Receipt(this.itemID, null, null, null);
         }
     }
     calculateMarketPrices() {
@@ -57,11 +60,11 @@ export class Exchange {
         }
     }
     checkExecute(item) {
-        if (item.orderType == OrderType.Buy) {
+        if (item.orderType == OrderType_1.OrderType.Buy) {
             if (item.price >= this.ask)
                 return true;
         }
-        if (item.orderType == OrderType.Sell) {
+        if (item.orderType == OrderType_1.OrderType.Sell) {
             if (item.price <= this.bid)
                 return true;
         }
@@ -120,3 +123,4 @@ export class Exchange {
         }
     }
 }
+exports.Exchange = Exchange;

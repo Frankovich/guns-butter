@@ -1,7 +1,10 @@
-import { Exchange } from "./Exchange";
-import { Item } from "./Item";
-import { OrderType } from "./OrderType";
-export class GunsAndButter {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.GunsAndButter = void 0;
+const Exchange_1 = require("./Exchange");
+const Item_1 = require("./Item");
+const OrderType_1 = require("./OrderType");
+class GunsAndButter {
     constructor() {
         this.exchanges = [];
         this.exchangeCount = 0;
@@ -13,12 +16,12 @@ export class GunsAndButter {
         this.exchangeCount += 1;
     }
     createItem(itemID, price, traderID, orderType, expirationDate) {
-        var item = new Item(itemID, price, traderID, orderType, expirationDate);
+        var item = new Item_1.Item(itemID, price, traderID, orderType, expirationDate);
         return item;
     }
     addItem(itemID, price, traderID, orderType, expirationDate) {
-        var item = new Item(itemID, price, traderID, orderType, expirationDate);
-        if (item.orderType == OrderType.Buy) {
+        var item = new Item_1.Item(itemID, price, traderID, orderType, expirationDate);
+        if (item.orderType == OrderType_1.OrderType.Buy) {
             for (var val of this.exchanges) {
                 if (val.itemID == item.getItemID()) {
                     this.receipts.push(val.add(item));
@@ -26,13 +29,13 @@ export class GunsAndButter {
                     return true;
                 }
             }
-            var exchange = new Exchange(item.getItemID());
+            var exchange = new Exchange_1.Exchange(item.getItemID());
             this.receipts.push(exchange.add(item));
             this.addExchange(exchange);
             this.itemCount += 1;
             return true;
         }
-        else if (item.orderType == OrderType.Sell) {
+        else if (item.orderType == OrderType_1.OrderType.Sell) {
             for (var val of this.exchanges) {
                 if (val.itemID == item.getItemID()) {
                     this.receipts.push(val.add(item));
@@ -40,7 +43,7 @@ export class GunsAndButter {
                     return true;
                 }
             }
-            var exchange = new Exchange(item.getItemID());
+            var exchange = new Exchange_1.Exchange(item.getItemID());
             this.receipts.push(exchange.add(item));
             this.addExchange(exchange);
             this.itemCount += 1;
@@ -96,4 +99,5 @@ export class GunsAndButter {
         console.log("# of items ", this.itemCount);
     }
 }
+exports.GunsAndButter = GunsAndButter;
 module.exports = GunsAndButter;

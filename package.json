@@ -3,7 +3,7 @@
   "version": "1.0.6",
   "description": "A library for managing an economy of goods.",
   "main": "index.js",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "acorn": "^8.8.0",
     "acorn-walk": "^8.2.0",
