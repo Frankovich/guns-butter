@@ -15,7 +15,7 @@
     "shx": "^0.3.4"
   },
   "name": "guns-butter",
-  "version": "2.0.6",
+  "version": "2.0.7",
   "description": "A library for managing an economy of goods",
   "repository": {
     "type": "git",
