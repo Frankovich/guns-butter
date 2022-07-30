@@ -1,9 +1,15 @@
 {
     "compilerOptions": {
-        "target": "es6",
-        "outDir": "dist",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "declaration": true
+      "rootDir": "ts",
+      "outDir": "dist",
+      "target": "es2019",
+      "lib": [
+        "es2019"
+      ],
+      "module": "commonjs",
+      "esModuleInterop": true,
+      "strict": true,
+      "declaration": true,
+      "sourceMap": true
     }
-}
+  }
