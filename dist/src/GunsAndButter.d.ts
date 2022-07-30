@@ -20,3 +20,4 @@ export declare class GunsAndButter {
     logSellOrders(): void;
     logReport(): void;
 }
+export default GunsAndButter;

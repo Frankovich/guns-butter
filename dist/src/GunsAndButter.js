@@ -100,5 +100,5 @@ class GunsAndButter {
     }
 }
 exports.GunsAndButter = GunsAndButter;
-module.exports = GunsAndButter;
+exports.default = GunsAndButter;
 //# sourceMappingURL=GunsAndButter.js.map
