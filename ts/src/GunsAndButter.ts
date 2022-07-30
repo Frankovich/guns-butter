@@ -3,7 +3,7 @@ import { Item } from "./Item";
 import { OrderType } from "./OrderType";
 import { Receipt } from "./Receipt";
 
-export default class GunsAndButter {
+export class GunsAndButter {
   exchanges: Exchange[];
   exchangeCount: number;
   itemCount: number;
@@ -136,5 +136,3 @@ export default class GunsAndButter {
     console.log("# of items ", this.itemCount);
   }
 }
-
-module.exports = GunsAndButter;
