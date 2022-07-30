@@ -137,4 +137,4 @@ export default class GunsAndButter {
   }
 }
 
-module.exports(new GunsAndButter());
+module.exports = new GunsAndButter();

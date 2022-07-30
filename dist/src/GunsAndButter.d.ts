@@ -2,7 +2,7 @@ import { Exchange } from "./Exchange";
 import { Item } from "./Item";
 import { OrderType } from "./OrderType";
 import { Receipt } from "./Receipt";
-export declare class GunsAndButter {
+export default class GunsAndButter {
     exchanges: Exchange[];
     exchangeCount: number;
     itemCount: number;
@@ -20,4 +20,3 @@ export declare class GunsAndButter {
     logSellOrders(): void;
     logReport(): void;
 }
-export default GunsAndButter;

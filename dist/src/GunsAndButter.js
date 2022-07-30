@@ -1,6 +1,5 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GunsAndButter = void 0;
 const Exchange_1 = require("./Exchange");
 const Item_1 = require("./Item");
 const OrderType_1 = require("./OrderType");
@@ -99,6 +98,6 @@ class GunsAndButter {
         console.log("# of items ", this.itemCount);
     }
 }
-exports.GunsAndButter = GunsAndButter;
 exports.default = GunsAndButter;
+module.exports(new GunsAndButter());
 //# sourceMappingURL=GunsAndButter.js.map
