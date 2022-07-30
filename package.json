@@ -2,7 +2,7 @@
   "name": "guns-and-butters",
   "version": "1.0.2",
   "description": "A library for managing an economy of goods.",
-  "main": "src/index.ts",
+  "main": "index.js",
   "type": "module",
   "dependencies": {
     "acorn": "^8.8.0",
