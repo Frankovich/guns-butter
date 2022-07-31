@@ -1,10 +1,10 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.GunsAndButter = void 0;
+exports.Econ = void 0;
 const Exchange_1 = require("./Exchange");
 const Item_1 = require("./Item");
 const OrderType_1 = require("./OrderType");
-class GunsAndButter {
+class Econ {
     constructor() {
         this.exchanges = [];
         this.exchangeCount = 0;
@@ -15,12 +15,22 @@ class GunsAndButter {
         this.exchanges.push(exchange);
         this.exchangeCount += 1;
     }
-    createItem(itemID, price, traderID, orderType, expirationDate) {
+    createItem(itemID, price, traderID, order, expirationDate) {
+        var orderType;
+        if (order == "buy") {
+            orderType = OrderType_1.OrderType.Buy;
+        }
+        else if (order == "sell") {
+            orderType = OrderType_1.OrderType.Sell;
+        }
+        else {
+            orderType = OrderType_1.OrderType.Invalid;
+        }
         var item = new Item_1.Item(itemID, price, traderID, orderType, expirationDate);
         return item;
     }
-    addItem(itemID, price, traderID, orderType, expirationDate) {
-        var item = new Item_1.Item(itemID, price, traderID, orderType, expirationDate);
+    add(itemID, price, traderID, orderType, expirationDate) {
+        var item = this.createItem(itemID, price, traderID, orderType, expirationDate);
         if (item.orderType == OrderType_1.OrderType.Buy) {
             for (var val of this.exchanges) {
                 if (val.itemID == item.getItemID()) {
@@ -99,5 +109,5 @@ class GunsAndButter {
         console.log("# of items ", this.itemCount);
     }
 }
-exports.GunsAndButter = GunsAndButter;
+exports.Econ = Econ;
 //# sourceMappingURL=Econ.js.map
