@@ -2,7 +2,7 @@ import { Exchange } from "./Exchange";
 import { Item } from "./Item";
 import { OrderType } from "./OrderType";
 import { Receipt } from "./Receipt";
-export default class GunsAndButter {
+export declare class GunsAndButter {
     exchanges: Exchange[];
     exchangeCount: number;
     itemCount: number;

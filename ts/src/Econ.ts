@@ -3,7 +3,7 @@ import { Item } from "./Item";
 import { OrderType } from "./OrderType";
 import { Receipt } from "./Receipt";
 
-export class GunsAndButter {
+export class Econ {
   exchanges: Exchange[];
   exchangeCount: number;
   itemCount: number;
@@ -25,9 +25,17 @@ export class GunsAndButter {
     itemID: string,
     price: number,
     traderID: string,
-    orderType: OrderType,
+    order: string,
     expirationDate: Date
   ): Item {
+    var orderType: OrderType;
+    if (order == "buy") {
+      orderType = OrderType.Buy;
+    } else if (order == "sell") {
+      orderType = OrderType.Sell;
+    } else {
+      orderType = OrderType.Invalid;
+    }
     var item: Item = new Item(
       itemID,
       price,
@@ -38,14 +46,14 @@ export class GunsAndButter {
     return item;
   }
 
-  addItem(
+  add(
     itemID: string,
     price: number,
     traderID: string,
-    orderType: OrderType,
+    orderType: string,
     expirationDate: Date
   ): Boolean {
-    var item: Item = new Item(
+    var item: Item = this.createItem(
       itemID,
       price,
       traderID,

@@ -1,4 +1,5 @@
 export enum OrderType {
-  Buy,
-  Sell,
+  Buy= "buy",
+  Sell = "sell",
+  Invalid = "invalid"
 }
