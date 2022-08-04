@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Econ = void 0;
 const Exchange_1 = require("./Exchange");
 const Item_1 = require("./Item");
-const OrderType_1 = require("./OrderType");
+const OrderTypeEnum_1 = require("./OrderTypeEnum");
 class Econ {
     constructor() {
         this.exchanges = [];
@@ -17,43 +17,44 @@ class Econ {
     }
     createItem(itemID, price, traderID, order, expirationDate) {
         var orderType;
-        if (order == "buy") {
-            orderType = OrderType_1.OrderType.Buy;
+        if (order == "limit buy") {
+            orderType = OrderTypeEnum_1.OrderType.LimitBuy;
         }
-        else if (order == "sell") {
-            orderType = OrderType_1.OrderType.Sell;
+        else if (order == "limit sell") {
+            orderType = OrderTypeEnum_1.OrderType.LimitSell;
         }
         else {
-            orderType = OrderType_1.OrderType.Invalid;
+            orderType = OrderTypeEnum_1.OrderType.Invalid;
         }
         var item = new Item_1.Item(itemID, price, traderID, orderType, expirationDate);
         return item;
     }
     add(itemID, price, traderID, orderType, expirationDate) {
         var item = this.createItem(itemID, price, traderID, orderType, expirationDate);
-        if (item.orderType == OrderType_1.OrderType.Buy) {
+        console.log(item);
+        if (item.orderType == OrderTypeEnum_1.OrderType.LimitBuy) {
             for (var val of this.exchanges) {
-                if (val.itemID == item.getItemID()) {
+                if (val.itemID == item.itemID) {
                     this.receipts.push(val.add(item));
                     this.itemCount += 1;
                     return true;
                 }
             }
-            var exchange = new Exchange_1.Exchange(item.getItemID());
+            var exchange = new Exchange_1.Exchange(item.itemID);
             this.receipts.push(exchange.add(item));
             this.addExchange(exchange);
             this.itemCount += 1;
             return true;
         }
-        else if (item.orderType == OrderType_1.OrderType.Sell) {
+        else if (item.orderType == OrderTypeEnum_1.OrderType.LimitSell) {
             for (var val of this.exchanges) {
-                if (val.itemID == item.getItemID()) {
+                if (val.itemID == item.itemID) {
                     this.receipts.push(val.add(item));
                     this.itemCount += 1;
                     return true;
                 }
             }
-            var exchange = new Exchange_1.Exchange(item.getItemID());
+            var exchange = new Exchange_1.Exchange(item.itemID);
             this.receipts.push(exchange.add(item));
             this.addExchange(exchange);
             this.itemCount += 1;
@@ -80,7 +81,7 @@ class Econ {
         var bids = [];
         for (var i = 0; i < this.exchanges.length; i++) {
             this.exchanges[i].calculateAsk();
-            bids.push(this.exchanges[i].getBid());
+            bids.push(this.exchanges[i].bid);
         }
         return bids;
     }
@@ -88,20 +89,22 @@ class Econ {
         var asks = [];
         for (var i = 0; i < this.exchanges.length; i++) {
             this.exchanges[i].calculateAsk();
-            asks.push(this.exchanges[i].getAsk());
+            asks.push(this.exchanges[i].ask);
         }
         return asks;
     }
     logBuyOrders() {
         console.log("buy orders:");
+        var log = [];
         for (var val of this.exchanges) {
-            val.logBuyOrders();
+            log.push(val.buyOrders);
         }
     }
     logSellOrders() {
         console.log("sell orders:");
+        var log = [];
         for (var val of this.exchanges) {
-            val.logSellOrders();
+            log.push(val.sellOrders);
         }
     }
     logReport() {

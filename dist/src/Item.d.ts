@@ -1,4 +1,4 @@
-import { OrderType } from "./OrderType";
+import { OrderType } from "./OrderTypeEnum";
 export declare class Item {
     itemID: string;
     price: number;
