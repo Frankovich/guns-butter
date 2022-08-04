@@ -1,0 +1,15 @@
+Features I plan on implementing:
+    -Optionally call api whenever Econ receives a new receipt
+    -Optionally pass a file name or method which connects the Econ.ts file to a database so the data is not stored in memory
+    -Expiration dates/times on orders
+    -Check if order is within expiration period IDEA BELOW
+Testing
+    -Need to test Receipts are accurate
+
+
+
+
+Expiration date implementation:
+    Parse through limit orders and check if they are expired whenever a new order is added to an exchange, if invalid, remove from exchange, if valid either execute order or move on to next order.
+
+Problem: How to return multiple Receipts to Econ from Exchange

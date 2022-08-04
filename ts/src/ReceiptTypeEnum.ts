@@ -1,8 +1,11 @@
 export enum ReceiptType {
-    NoBuyOrders= "Market Sell Order Refused",
     NoSellOrders= "Market Buy Order Refused",
-    AddedToExchange= "Added to Exchange",
-    OrderExecuted= "Order Executed",
+    NoBuyOrders= "Market Sell Order Refused",
+    BuyAddedToExchange= "Limit Buy Added to Exchange",
+    SellAddedToExchange= "Limit Sell Added to Exchange",
+    LimitBuyOrderExecuted= "Limit Buy Order Executed",
+    LimitSellOrderExecuted= "Limit Sell Order Executed",
+    MarketBuyExecuted= "Market Buy Order Executed",
+    MarketSellExecuted= "Market Sell Order Executed",
     Invalid= "Invalid"
-  }
-  
+}

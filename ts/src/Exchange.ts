@@ -34,7 +34,7 @@ export class Exchange {
         var sellOrder = this.removeSellOrder();
         this.calculateMarketPrices();
         return new Receipt(
-          ReceiptType.OrderExecuted,
+          ReceiptType.LimitBuyOrderExecuted,
           this.itemID,
           item.price,
           item.traderID,
@@ -43,13 +43,14 @@ export class Exchange {
       }
       this.addBuyOrder(item);
       this.calculateMarketPrices();
-      return new Receipt(ReceiptType.AddedToExchange, this.itemID, item.price, item.traderID, null);
-    } else if (item.orderType == OrderType.LimitSell) {
+      return new Receipt(ReceiptType.BuyAddedToExchange, this.itemID, item.price, item.traderID, null);
+    } 
+    else if (item.orderType == OrderType.LimitSell) {
       if (this.buyOrders.length > 0 && this.checkExecute(item)) {
         var buyOrder = this.removeBuyOrder();
         this.calculateMarketPrices();
         return new Receipt(
-          ReceiptType.OrderExecuted,
+          ReceiptType.LimitSellOrderExecuted,
           this.itemID,
           item.price,
           buyOrder.traderID,
@@ -58,7 +59,7 @@ export class Exchange {
       }
       this.addSellOrder(item);
       this.calculateMarketPrices();
-      return new Receipt(ReceiptType.AddedToExchange, this.itemID, item.price, null, item.traderID);
+      return new Receipt(ReceiptType.SellAddedToExchange, this.itemID, item.price, null, item.traderID);
     } else {
       this.calculateMarketPrices();
       return new Receipt(ReceiptType.Invalid, this.itemID, null, null, null);
@@ -71,42 +72,31 @@ export class Exchange {
         var sellOrder = this.removeSellOrder();
         this.calculateMarketPrices();
         return new Receipt(
-          ReceiptType.OrderExecuted,
+          ReceiptType.MarketBuyExecuted,
           this.itemID,
           item.price,
           item.traderID,
           sellOrder.traderID
         );
       }
-      this.addBuyOrder(item);
       this.calculateMarketPrices();
-      return new Receipt(ReceiptType.OrderExecuted, this.itemID, item.price, item.traderID, null);
+      return new Receipt(ReceiptType.NoSellOrders, this.itemID, item.price, item.traderID, null);
     } else if (item.orderType == OrderType.MarketSell) {
       if (this.buyOrders.length > 0) {
         var buyOrder = this.removeBuyOrder();
         this.calculateMarketPrices();
         return new Receipt(
-          ReceiptType.OrderExecuted,
+          ReceiptType.MarketSellExecuted,
           this.itemID,
           item.price,
           buyOrder.traderID,
           item.traderID
         );
       }
-      return new Receipt(ReceiptType.OrderExecuted, this.itemID, item.price, null, item.traderID);
+      return new Receipt(ReceiptType.NoBuyOrders, this.itemID, item.price, null, item.traderID);
     } else {
       this.calculateMarketPrices();
-      /*
-      if (item.orderType === OrderType.MarketBuy) {
-        return new Receipt(ReceiptType.NoSellOrders, this.itemID, null, null, null);
-      } 
-      else if (item.orderType === OrderType.MarketSell) {
-        return new Receipt(ReceiptType.NoBuyOrders, this.itemID, null, null, null);
-      } 
-      else {
-      */
       return new Receipt(ReceiptType.Invalid, this.itemID, null, null, null);
-      //}
     }
   }
 
