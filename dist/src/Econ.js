@@ -15,54 +15,41 @@ class Econ {
         this.exchanges.push(exchange);
         this.exchangeCount += 1;
     }
+    add(itemID, price, traderID, orderType, expirationDate) {
+        var item = this.createItem(itemID, price, traderID, orderType, expirationDate);
+        for (var val of this.exchanges) {
+            if (val.itemID == item.itemID) {
+                this.receipts.push(val.add(item));
+                this.itemCount += 1;
+                return true;
+            }
+        }
+        var exchange = new Exchange_1.Exchange(item.itemID);
+        this.receipts.push(exchange.add(item));
+        this.addExchange(exchange);
+        this.itemCount += 1;
+        return true;
+    }
     createItem(itemID, price, traderID, order, expirationDate) {
         var orderType;
-        if (order == "limit buy") {
-            orderType = OrderTypeEnum_1.OrderType.LimitBuy;
-        }
-        else if (order == "limit sell") {
-            orderType = OrderTypeEnum_1.OrderType.LimitSell;
-        }
-        else {
-            orderType = OrderTypeEnum_1.OrderType.Invalid;
+        switch (order) {
+            case "limit buy":
+                orderType = OrderTypeEnum_1.OrderType.LimitBuy;
+                break;
+            case "limit sell":
+                orderType = OrderTypeEnum_1.OrderType.LimitSell;
+                break;
+            case "market buy":
+                orderType = OrderTypeEnum_1.OrderType.MarketBuy;
+                break;
+            case "market sell":
+                orderType = OrderTypeEnum_1.OrderType.MarketSell;
+                break;
+            default:
+                orderType = OrderTypeEnum_1.OrderType.Invalid;
         }
         var item = new Item_1.Item(itemID, price, traderID, orderType, expirationDate);
         return item;
-    }
-    add(itemID, price, traderID, orderType, expirationDate) {
-        var item = this.createItem(itemID, price, traderID, orderType, expirationDate);
-        console.log(item);
-        if (item.orderType == OrderTypeEnum_1.OrderType.LimitBuy) {
-            for (var val of this.exchanges) {
-                if (val.itemID == item.itemID) {
-                    this.receipts.push(val.add(item));
-                    this.itemCount += 1;
-                    return true;
-                }
-            }
-            var exchange = new Exchange_1.Exchange(item.itemID);
-            this.receipts.push(exchange.add(item));
-            this.addExchange(exchange);
-            this.itemCount += 1;
-            return true;
-        }
-        else if (item.orderType == OrderTypeEnum_1.OrderType.LimitSell) {
-            for (var val of this.exchanges) {
-                if (val.itemID == item.itemID) {
-                    this.receipts.push(val.add(item));
-                    this.itemCount += 1;
-                    return true;
-                }
-            }
-            var exchange = new Exchange_1.Exchange(item.itemID);
-            this.receipts.push(exchange.add(item));
-            this.addExchange(exchange);
-            this.itemCount += 1;
-            return true;
-        }
-        else {
-            return false;
-        }
     }
     getReceipts() {
         return this.receipts;

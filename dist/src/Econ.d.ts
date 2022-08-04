@@ -8,8 +8,8 @@ export declare class Econ {
     receipts: Receipt[];
     constructor();
     addExchange(exchange: Exchange): void;
-    createItem(itemID: string, price: number, traderID: string, order: string, expirationDate: Date): Item;
     add(itemID: string, price: number, traderID: string, orderType: string, expirationDate: Date): Boolean;
+    createItem(itemID: string, price: number, traderID: string, order: string, expirationDate: Date): Item;
     getReceipts(): Receipt[];
     calcBids(): void;
     calcAsks(): void;
