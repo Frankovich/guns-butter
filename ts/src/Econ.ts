@@ -21,31 +21,6 @@ export class Econ {
     this.exchangeCount += 1;
   }
 
-  createItem(
-    itemID: string,
-    price: number,
-    traderID: string,
-    order: string,
-    expirationDate: Date
-  ): Item {
-    var orderType: OrderType;
-    if (order == "limit buy") {
-      orderType = OrderType.LimitBuy;
-    } else if (order == "limit sell") {
-      orderType = OrderType.LimitSell;
-    } else {
-      orderType = OrderType.Invalid;
-    }
-    var item: Item = new Item(
-      itemID,
-      price,
-      traderID,
-      orderType,
-      expirationDate
-    );
-    return item;
-  }
-
   add(
     itemID: string,
     price: number,
@@ -60,36 +35,54 @@ export class Econ {
       orderType,
       expirationDate
     );
-    console.log(item);
-    if (item.orderType == OrderType.LimitBuy) {
-      for (var val of this.exchanges) {
-        if (val.itemID == item.itemID) {
-          this.receipts.push(val.add(item));
-          this.itemCount += 1;
-          return true;
-        }
+    for (var val of this.exchanges) {
+      if (val.itemID == item.itemID) {
+        this.receipts.push(val.add(item));
+        this.itemCount += 1;
+        return true;
       }
-      var exchange = new Exchange(item.itemID);
-      this.receipts.push(exchange.add(item));
-      this.addExchange(exchange);
-      this.itemCount += 1;
-      return true;
-    } else if (item.orderType == OrderType.LimitSell) {
-      for (var val of this.exchanges) {
-        if (val.itemID == item.itemID) {
-          this.receipts.push(val.add(item));
-          this.itemCount += 1;
-          return true;
-        }
-      }
-      var exchange = new Exchange(item.itemID);
-      this.receipts.push(exchange.add(item));
-      this.addExchange(exchange);
-      this.itemCount += 1;
-      return true;
-    } else {
-      return false;
     }
+    var exchange = new Exchange(item.itemID);
+    this.receipts.push(exchange.add(item));
+    this.addExchange(exchange);
+    this.itemCount += 1;
+    return true;
+  }
+
+  createItem(
+    itemID: string,
+    price: number,
+    traderID: string,
+    order: string,
+    expirationDate: Date
+  ): Item {
+    var orderType: OrderType;
+    
+    switch (order) {
+      case "limit buy":
+        orderType = OrderType.LimitBuy;
+        break;
+      case "limit sell":
+        orderType = OrderType.LimitSell;
+        break;
+      case "market buy":
+        orderType = OrderType.MarketBuy;
+        break;
+      case "market sell":
+        orderType = OrderType.MarketSell;
+        break;
+      default:
+        orderType = OrderType.Invalid;
+    }
+
+    var item: Item = new Item(
+      itemID,
+      price,
+      traderID,
+      orderType,
+      expirationDate
+    );
+    return item;
   }
 
   getReceipts(): Receipt[] {

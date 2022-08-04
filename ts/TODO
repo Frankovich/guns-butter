@@ -12,4 +12,5 @@ Testing
 Expiration date implementation:
     Parse through limit orders and check if they are expired whenever a new order is added to an exchange, if invalid, remove from exchange, if valid either execute order or move on to next order.
 
-Problem: How to return multiple Receipts to Econ from Exchange
+Problem: 
+    How to return multiple Receipts to Econ from Exchange

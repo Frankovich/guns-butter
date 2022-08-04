@@ -8,7 +8,6 @@ describe("Econ tests", () => {
       cap = new Econ();
       var exchangeCount: number = 1;
       cap.add("0", 5, "a", "limit sell", date);
-      console.log(cap);
       expect(cap.exchanges.length).toBe(exchangeCount);
     });
   });
