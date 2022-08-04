@@ -7,7 +7,8 @@ describe("Econ tests", () => {
     it("There should be one exchange", () => {
       cap = new Econ();
       var exchangeCount: number = 1;
-      cap.add("0", 5, "a", "sell", date);
+      cap.add("0", 5, "a", "limit sell", date);
+      console.log(cap);
       expect(cap.exchanges.length).toBe(exchangeCount);
     });
   });
@@ -16,9 +17,9 @@ describe("Econ tests", () => {
     it("There should be two exchange", () => {
       cap = new Econ();
       var exchangeCount: number = 2;
-      cap.add("0", 5, "a", "sell", date);
-      cap.add("1", 6, "a", "sell", date);
-      cap.add("1", 7, "a", "sell", date);
+      cap.add("0", 5, "a", "limit sell", date);
+      cap.add("1", 6, "a", "limit sell", date);
+      cap.add("1", 7, "a", "limit sell", date);
       expect(cap.exchanges.length).toBe(exchangeCount);
     });
   });
@@ -27,12 +28,12 @@ describe("Econ tests", () => {
     it("There should be two exchange", () => {
       cap = new Econ();
       var exchangeCount: number = 5;
-      cap.add("0", 5, "a", "sell", date);
-      cap.add("1", 6, "a", "sell", date);
-      cap.add("2", 7, "a", "sell", date);
-      cap.add("3", 7, "a", "sell", date);
-      cap.add("4", 7, "a", "sell", date);
-      cap.add("1", 6, "a", "sell", date);
+      cap.add("0", 5, "a", "limit sell", date);
+      cap.add("1", 6, "a", "limit sell", date);
+      cap.add("2", 7, "a", "limit sell", date);
+      cap.add("3", 7, "a", "limit sell", date);
+      cap.add("4", 7, "a", "limit sell", date);
+      cap.add("1", 6, "a", "limit sell", date);
       expect(cap.exchanges.length).toBe(exchangeCount);
     });
   });
@@ -42,9 +43,9 @@ describe("Econ tests", () => {
       cap = new Econ();
       var exchangeCount: number = 1;
       var orderCount: number = 3;
-      cap.add("0", 5, "a", "sell", date);
-      cap.add("0", 5, "a", "sell", date);
-      cap.add("0", 5, "a", "sell", date);
+      cap.add("0", 5, "a", "limit sell", date);
+      cap.add("0", 5, "a", "limit sell", date);
+      cap.add("0", 5, "a", "limit sell", date);
       expect(cap.exchanges.length).toBe(exchangeCount);
       expect(cap.exchanges[0].sellOrders.length).toBe(orderCount);
     });
@@ -55,10 +56,10 @@ describe("Econ tests", () => {
       cap = new Econ();
       var exchangeCount: number = 2;
       var orderCount: number = 2;
-      cap.add("0", 5, "a", "sell", date);
-      cap.add("0", 5, "a", "sell", date);
-      cap.add("1", 5, "a", "sell", date);
-      cap.add("1", 5, "a", "sell", date);
+      cap.add("0", 5, "a", "limit sell", date);
+      cap.add("0", 5, "a", "limit sell", date);
+      cap.add("1", 5, "a", "limit sell", date);
+      cap.add("1", 5, "a", "limit sell", date);
       expect(cap.exchanges.length).toBe(exchangeCount);
       expect(cap.exchanges[0].sellOrders.length).toBe(orderCount);
       expect(cap.exchanges[1].sellOrders.length).toBe(orderCount);
@@ -70,9 +71,9 @@ describe("Econ tests", () => {
       cap = new Econ();
       var exchangeCount: number = 1;
       var orderCount: number = 3;
-      cap.add("0", 5, "a", "buy", date);
-      cap.add("0", 5, "a", "buy", date);
-      cap.add("0", 5, "a", "buy", date);
+      cap.add("0", 5, "a", "limit buy", date);
+      cap.add("0", 5, "a", "limit buy", date);
+      cap.add("0", 5, "a", "limit buy", date);
       expect(cap.exchanges.length).toBe(exchangeCount);
       expect(cap.exchanges[0].buyOrders.length).toBe(orderCount);
     });
@@ -83,10 +84,10 @@ describe("Econ tests", () => {
       cap = new Econ();
       var exchangeCount: number = 2;
       var orderCount: number = 2;
-      cap.add("0", 5, "a", "buy", date);
-      cap.add("0", 5, "a", "buy", date);
-      cap.add("1", 5, "a", "buy", date);
-      cap.add("1", 5, "a", "buy", date);
+      cap.add("0", 5, "a", "limit buy", date);
+      cap.add("0", 5, "a", "limit buy", date);
+      cap.add("1", 5, "a", "limit buy", date);
+      cap.add("1", 5, "a", "limit buy", date);
       expect(cap.exchanges.length).toBe(exchangeCount);
       expect(cap.exchanges[0].buyOrders.length).toBe(orderCount);
       expect(cap.exchanges[1].buyOrders.length).toBe(orderCount);
@@ -98,8 +99,8 @@ describe("Econ tests", () => {
       cap = new Econ();
       var exchangeCount: number = 1;
       var orderCount: number = 0;
-      cap.add("0", 5, "a", "buy", date);
-      cap.add("0", 5, "a", "sell", date);
+      cap.add("0", 5, "a", "limit buy", date);
+      cap.add("0", 5, "a", "limit sell", date);
       
       expect(cap.exchanges.length).toBe(exchangeCount);
       expect(cap.exchanges[0].buyOrders.length).toBe(orderCount);
@@ -111,8 +112,8 @@ describe("Econ tests", () => {
       cap = new Econ();
       var exchangeCount: number = 1;
       var orderCount: number = 0;
-      cap.add("0", 5, "a", "buy", date);
-      cap.add("0", 5, "a", "sell", date);
+      cap.add("0", 5, "a", "limit buy", date);
+      cap.add("0", 5, "a", "limit sell", date);
       
       expect(cap.exchanges.length).toBe(exchangeCount);
       expect(cap.exchanges[0].buyOrders.length).toBe(orderCount);
@@ -124,8 +125,8 @@ describe("Econ tests", () => {
       cap = new Econ();
       var exchangeCount: number = 2;
       var orderCount: number = 1;
-      cap.add("0", 5, "a", "buy", date);
-      cap.add("1", 5, "a", "sell", date);
+      cap.add("0", 5, "a", "limit buy", date);
+      cap.add("1", 5, "a", "limit sell", date);
       
       expect(cap.exchanges.length).toBe(exchangeCount);
       expect(cap.exchanges[0].buyOrders.length).toBe(orderCount);
@@ -139,13 +140,13 @@ describe("Econ tests", () => {
       var exchangeCount: number = 1;
       var buyCount: number = 5;
       var sellCount: number = 1;
-      cap.add("0", 5, "a", "buy", date);
-      cap.add("0", 5.1, "a", "buy", date);
-      cap.add("0", 5.2, "a", "buy", date);
-      cap.add("0", 5.3, "a", "buy", date);
-      cap.add("0", 5.4, "a", "buy", date);
+      cap.add("0", 5, "a", "limit buy", date);
+      cap.add("0", 5.1, "a", "limit buy", date);
+      cap.add("0", 5.2, "a", "limit buy", date);
+      cap.add("0", 5.3, "a", "limit buy", date);
+      cap.add("0", 5.4, "a", "limit buy", date);
       
-      cap.add("0", 5.5, "a", "sell", date);
+      cap.add("0", 5.5, "a", "limit sell", date);
       
       expect(cap.exchanges.length).toBe(exchangeCount);
       expect(cap.exchanges[0].buyOrders.length).toBe(buyCount);
@@ -160,14 +161,14 @@ describe("Econ tests", () => {
       var buyCount: number = 4;
       var sellCount: number = 1;
 
-      cap.add("0", 5, "a", "buy", date);
-      cap.add("0", 5.1, "a", "buy", date);
-      cap.add("0", 5.2, "a", "buy", date);
-      cap.add("0", 5.3, "a", "buy", date);
-      cap.add("0", 5.4, "a", "buy", date);
+      cap.add("0", 5, "a", "limit buy", date);
+      cap.add("0", 5.1, "a", "limit buy", date);
+      cap.add("0", 5.2, "a", "limit buy", date);
+      cap.add("0", 5.3, "a", "limit buy", date);
+      cap.add("0", 5.4, "a", "limit buy", date);
       
-      cap.add("0", 5.3, "a", "sell", date);
-      cap.add("0", 5.4, "a", "sell", date);
+      cap.add("0", 5.3, "a", "limit sell", date);
+      cap.add("0", 5.4, "a", "limit sell", date);
 
       expect(cap.exchanges.length).toBe(exchangeCount);
       expect(cap.exchanges[0].buyOrders.length).toBe(buyCount);

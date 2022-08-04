@@ -1,6 +1,6 @@
 import { Exchange } from "./Exchange";
 import { Item } from "./Item";
-import { OrderType } from "./OrderType";
+import { OrderType } from "./OrderTypeEnum";
 import { Receipt } from "./Receipt";
 
 export class Econ {
@@ -29,10 +29,10 @@ export class Econ {
     expirationDate: Date
   ): Item {
     var orderType: OrderType;
-    if (order == "buy") {
-      orderType = OrderType.Buy;
-    } else if (order == "sell") {
-      orderType = OrderType.Sell;
+    if (order == "limit buy") {
+      orderType = OrderType.LimitBuy;
+    } else if (order == "limit sell") {
+      orderType = OrderType.LimitSell;
     } else {
       orderType = OrderType.Invalid;
     }
@@ -60,28 +60,29 @@ export class Econ {
       orderType,
       expirationDate
     );
-    if (item.orderType == OrderType.Buy) {
+    console.log(item);
+    if (item.orderType == OrderType.LimitBuy) {
       for (var val of this.exchanges) {
-        if (val.itemID == item.getItemID()) {
+        if (val.itemID == item.itemID) {
           this.receipts.push(val.add(item));
           this.itemCount += 1;
           return true;
         }
       }
-      var exchange = new Exchange(item.getItemID());
+      var exchange = new Exchange(item.itemID);
       this.receipts.push(exchange.add(item));
       this.addExchange(exchange);
       this.itemCount += 1;
       return true;
-    } else if (item.orderType == OrderType.Sell) {
+    } else if (item.orderType == OrderType.LimitSell) {
       for (var val of this.exchanges) {
-        if (val.itemID == item.getItemID()) {
+        if (val.itemID == item.itemID) {
           this.receipts.push(val.add(item));
           this.itemCount += 1;
           return true;
         }
       }
-      var exchange = new Exchange(item.getItemID());
+      var exchange = new Exchange(item.itemID);
       this.receipts.push(exchange.add(item));
       this.addExchange(exchange);
       this.itemCount += 1;
@@ -111,7 +112,7 @@ export class Econ {
     var bids: number[] = [];
     for (var i = 0; i < this.exchanges.length; i++) {
       this.exchanges[i].calculateAsk();
-      bids.push(this.exchanges[i].getBid());
+      bids.push(this.exchanges[i].bid);
     }
     return bids;
   }
@@ -120,22 +121,24 @@ export class Econ {
     var asks: number[] = [];
     for (var i = 0; i < this.exchanges.length; i++) {
       this.exchanges[i].calculateAsk();
-      asks.push(this.exchanges[i].getAsk());
+      asks.push(this.exchanges[i].ask);
     }
     return asks;
   }
 
   logBuyOrders(): void {
     console.log("buy orders:");
+    var log = []
     for (var val of this.exchanges) {
-      val.logBuyOrders();
+      log.push(val.buyOrders);
     }
   }
 
   logSellOrders(): void {
     console.log("sell orders:");
+    var log = []
     for (var val of this.exchanges) {
-      val.logSellOrders();
+      log.push(val.sellOrders);
     }
   }
 

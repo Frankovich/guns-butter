@@ -1,6 +1,7 @@
 import { Item } from "./Item";
-import { OrderType } from "./OrderType";
+import { OrderType } from "./OrderTypeEnum";
 import { Receipt } from "./Receipt";
+import { ReceiptType } from "./ReceiptTypeEnum";
 
 export class Exchange {
   itemID: string;
@@ -18,11 +19,22 @@ export class Exchange {
   }
 
   add(item: Item): Receipt {
-    if (item.getOrderType() == OrderType.Buy) {
+    if (item.orderType == OrderType.LimitBuy || item.orderType == OrderType.LimitSell) {
+      return this.limitOrder(item)
+    }
+    else if (item.orderType == OrderType.MarketBuy || item.orderType == OrderType.MarketSell) {
+      return this.marketOrder(item)
+    }
+    return new Receipt(ReceiptType.Invalid, this.itemID, null, null, null);
+  }
+
+  limitOrder(item: Item): Receipt {
+    if (item.orderType == OrderType.LimitBuy) {
       if (this.sellOrders.length > 0 && this.checkExecute(item)) {
         var sellOrder = this.removeSellOrder();
         this.calculateMarketPrices();
         return new Receipt(
+          ReceiptType.OrderExecuted,
           this.itemID,
           item.price,
           item.traderID,
@@ -31,12 +43,13 @@ export class Exchange {
       }
       this.addBuyOrder(item);
       this.calculateMarketPrices();
-      return new Receipt(this.itemID, item.price, item.traderID, null);
-    } else if (item.getOrderType() == OrderType.Sell) {
+      return new Receipt(ReceiptType.AddedToExchange, this.itemID, item.price, item.traderID, null);
+    } else if (item.orderType == OrderType.LimitSell) {
       if (this.buyOrders.length > 0 && this.checkExecute(item)) {
         var buyOrder = this.removeBuyOrder();
         this.calculateMarketPrices();
         return new Receipt(
+          ReceiptType.OrderExecuted,
           this.itemID,
           item.price,
           buyOrder.traderID,
@@ -45,10 +58,55 @@ export class Exchange {
       }
       this.addSellOrder(item);
       this.calculateMarketPrices();
-      return new Receipt(this.itemID, item.price, null, item.traderID);
+      return new Receipt(ReceiptType.AddedToExchange, this.itemID, item.price, null, item.traderID);
     } else {
       this.calculateMarketPrices();
-      return new Receipt(this.itemID, null, null, null);
+      return new Receipt(ReceiptType.Invalid, this.itemID, null, null, null);
+    }
+  }
+
+  marketOrder(item: Item): Receipt {
+    if (item.orderType == OrderType.MarketBuy) {
+      if (this.sellOrders.length > 0) {
+        var sellOrder = this.removeSellOrder();
+        this.calculateMarketPrices();
+        return new Receipt(
+          ReceiptType.OrderExecuted,
+          this.itemID,
+          item.price,
+          item.traderID,
+          sellOrder.traderID
+        );
+      }
+      this.addBuyOrder(item);
+      this.calculateMarketPrices();
+      return new Receipt(ReceiptType.OrderExecuted, this.itemID, item.price, item.traderID, null);
+    } else if (item.orderType == OrderType.MarketSell) {
+      if (this.buyOrders.length > 0) {
+        var buyOrder = this.removeBuyOrder();
+        this.calculateMarketPrices();
+        return new Receipt(
+          ReceiptType.OrderExecuted,
+          this.itemID,
+          item.price,
+          buyOrder.traderID,
+          item.traderID
+        );
+      }
+      return new Receipt(ReceiptType.OrderExecuted, this.itemID, item.price, null, item.traderID);
+    } else {
+      this.calculateMarketPrices();
+      /*
+      if (item.orderType === OrderType.MarketBuy) {
+        return new Receipt(ReceiptType.NoSellOrders, this.itemID, null, null, null);
+      } 
+      else if (item.orderType === OrderType.MarketSell) {
+        return new Receipt(ReceiptType.NoBuyOrders, this.itemID, null, null, null);
+      } 
+      else {
+      */
+      return new Receipt(ReceiptType.Invalid, this.itemID, null, null, null);
+      //}
     }
   }
 
@@ -76,17 +134,13 @@ export class Exchange {
   }
 
   checkExecute(item: Item): boolean {
-    if (item.orderType == OrderType.Buy) {
+    if (item.orderType == OrderType.LimitBuy) {
       if (item.price >= this.ask) return true;
     }
-    if (item.orderType == OrderType.Sell) {
+    if (item.orderType == OrderType.LimitSell) {
       if (item.price <= this.bid) return true;
     }
     return false;
-  }
-
-  getItemID(): string {
-    return this.itemID;
   }
 
   addBuyOrder(item: Item): boolean {
@@ -113,26 +167,6 @@ export class Exchange {
     delete this.sellOrders[0];
     this.sellOrders = this.sellOrders.filter((x) => x !== undefined);
     return itemToReturn;
-  }
-
-  logBuyOrders(): void {
-    for (var val of this.buyOrders) {
-      console.log(val);
-    }
-  }
-
-  logSellOrders(): void {
-    for (var val of this.sellOrders) {
-      console.log(val);
-    }
-  }
-
-  getBid(): number {
-    return this.bid;
-  }
-
-  getAsk(): number {
-    return this.ask;
   }
 
   comparePrice(a: Item, b: Item): number {
