@@ -2,10 +2,10 @@
 
 // Make ts class
 export class Entity {
-// Make the properties/fields
-    public name: string
-    public revenues: number
-    public costs: number
+    // Make the properties/fields
+    public name: string;
+    public revenues: number;
+    public costs: number;
 
     // Make the constructor
     constructor(
@@ -13,9 +13,9 @@ export class Entity {
         public revenues: number,
         public costs: number
     ) {
-        this.name = name
-        this.revenues = revenues
-        this.costs = costs
+        this.name = name;
+        this.revenues = revenues;
+        this.costs = costs;
     }
     
     // Make the method to calculate the profit
